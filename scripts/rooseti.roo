@@ -1,0 +1,68 @@
+project --topLevelPackage com.bt.rooseti --projectName rooseti
+
+jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
+
+entity jpa --class ~.domain.User --testAutomatically
+	field string firstName --notNull --sizeMin 1 --sizeMax 50
+	field string lastName --notNull --sizeMin 1 --sizeMax 100
+	field string middleName --sizeMin 1 --sizeMax 50
+	field string email --sizeMax 255
+
+entity jpa --class ~.domain.ServerType --testAutomatically
+	field string name --notNull --sizeMin 1 --sizeMax 50
+	field string description --sizeMax 1000
+
+entity jpa --class ~.domain.Server --testAutomatically
+	field string name --notNull --sizeMin 1 --sizeMax 50
+	field string ipAddress --sizeMax 20
+	field string description --sizeMax 1000
+	field reference --fieldName serverType --type ~.domain.ServerType
+
+entity jpa --class ~.domain.ServiceType --testAutomatically
+	field string name --notNull --sizeMin 1 --sizeMax 50
+	field string description --sizeMax 1000
+
+entity jpa --class ~.domain.Service --testAutomatically
+	field string instanceName --notNull --sizeMin 1 --sizeMax 50
+	field string port --sizeMax 20
+	field string notes --sizeMax 2000
+	field reference --fieldName serviceType --type ~.domain.ServiceType
+
+entity jpa --class ~.domain.LifecyclePhase --testAutomatically
+	field string name --notNull --sizeMin 1 --sizeMax 50
+	field string description --sizeMax 1000
+
+entity jpa --class ~.domain.Application --testAutomatically
+	field string name --notNull --sizeMin 1 --sizeMax 50
+	field string description --sizeMax 1000
+	field reference --fieldName owner --type ~.domain.User
+
+
+
+web mvc setup
+web mvc scaffold ~.web.ServerController
+
+entity jpa --class Service --testAutomatically
+  field reference choice --type Choice
+  field string ip --notNull --sizeMin 7 --sizeMax 15
+  field date registered --type java.util.Date --notNull --past
+web mvc scaffold ~.web.ServiceController
+
+// web mvc controller ~.web.PublicVoteController --preferredMapping /public
+
+web mvc language --code de
+web mvc language --code es
+web mvc language --code fr
+
+// Offer JSON remoting for all domain types through Spring MVC
+json all --deepSerialize
+web mvc json setup
+web mvc json all --package ~.web
+
+logging setup --level WARN --package WEB
+
+security setup
+
+finder list --class ~.domain.Service --depth 2 --filter reg,betw,IpEq
+
+logging setup --level INFO

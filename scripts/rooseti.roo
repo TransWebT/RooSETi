@@ -2,7 +2,7 @@ project --topLevelPackage com.bt.rooseti --projectName rooseti
 
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 
-entity jpa --class ~.domain.User --testAutomatically
+entity jpa --class ~.domain.Person --testAutomatically
 	field string firstName --notNull --sizeMin 1 --sizeMax 50
 	field string lastName --notNull --sizeMin 1 --sizeMax 100
 	field string middleName --sizeMin 1 --sizeMax 50
@@ -35,44 +35,56 @@ entity jpa --class ~.domain.LifecyclePhase --testAutomatically
 entity jpa --class ~.domain.Application --testAutomatically
 	field string name --notNull --sizeMin 1 --sizeMax 50
 	field string description --sizeMax 1000
-	field reference --fieldName owner --type ~.domain.User
+	field reference --fieldName owner --type ~.domain.Person
 
-entity jpa --class ~.domain.Release --testAutomatically
+entity jpa --class ~.domain.ApplicationRelease --testAutomatically
 	field string name --notNull --sizeMin 1 --sizeMax 50
 	field string description --sizeMax 1000
 
 entity jpa --class ~.domain.Reservation --testAutomatically
 	field string reservationTag --notNull --sizeMin 1 --sizeMax 100
-	field reference --fieldName requester --type ~.domain.User
+	field reference --fieldName requester --type ~.domain.Person
 	field string comments --sizeMax 2000
 	field reference --fieldName application --type ~.domain.Application
-	field reference --fieldName release --type ~.domain.Release
+	field reference --fieldName applicationRelease --type ~.domain.ApplicationRelease
 	field reference --fieldName lifecyclePhase --type ~.domain.LifecyclePhase
 	field reference --fieldName server --type ~.domain.Server
 	field reference --fieldName service --type ~.domain.Service
 	field date startDatetime --type java.util.Date
 	field date endDatetime --type java.util.Date
 
+repository jpa --interface ~.repository.PersonRepository --entity ~.domain.Person
+repository jpa --interface ~.repository.ServerTypeRepository --entity ~.domain.ServerType
+repository jpa --interface ~.repository.ServerRepository --entity ~.domain.Server
+repository jpa --interface ~.repository.ServiceTypeRepository --entity ~.domain.ServiceType
+repository jpa --interface ~.repository.ServiceRepository --entity ~.domain.Service
+repository jpa --interface ~.repository.LifecyclePhaseRepository --entity ~.domain.LifecyclePhase
+repository jpa --interface ~.repository.ApplicationRepository --entity ~.domain.Application
+repository jpa --interface ~.repository.ApplicationReleaseRepository --entity ~.domain.ApplicationRelease
+repository jpa --interface ~.repository.ReservationRepository --entity ~.domain.Reservation
 
-web mvc setup
-web mvc scaffold ~.web.ServerController
+service --interface ~.service.PersonService --entity ~.domain.Person
+service --interface ~.service.ServerTypeService --entity ~.domain.ServerType
+service --interface ~.service.ServerService --entity ~.domain.Server
+service --interface ~.service.ServiceTypeService --entity ~.domain.ServiceType
+service --interface ~.service.ServiceService --entity ~.domain.Service
+service --interface ~.service.LifecyclePhaseService --entity ~.domain.LifecyclePhase
+service --interface ~.service.ApplicationService --entity ~.domain.Application
+service --interface ~.service.ApplicationReleaseService --entity ~.domain.ApplicationRelease
+service --interface ~.service.ReservationService --entity ~.domain.Reservation
 
-entity jpa --class Service --testAutomatically
-  field reference choice --type Choice
-  field string ip --notNull --sizeMin 7 --sizeMax 15
-  field date registered --type java.util.Date --notNull --past
-web mvc scaffold ~.web.ServiceController
-
-// web mvc controller ~.web.PublicVoteController --preferredMapping /public
-
-web mvc language --code de
-web mvc language --code es
-web mvc language --code fr
 
 // Offer JSON remoting for all domain types through Spring MVC
 json all --deepSerialize
 web mvc json setup
 web mvc json all --package ~.web
+
+web mvc language --code de
+web mvc language --code es
+web mvc language --code fr
+
+web mvc setup
+web mvc all --package ~.web
 
 logging setup --level WARN --package WEB
 

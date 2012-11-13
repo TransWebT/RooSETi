@@ -37,6 +37,21 @@ entity jpa --class ~.domain.Application --testAutomatically
 	field string description --sizeMax 1000
 	field reference --fieldName owner --type ~.domain.User
 
+entity jpa --class ~.domain.Release --testAutomatically
+	field string name --notNull --sizeMin 1 --sizeMax 50
+	field string description --sizeMax 1000
+
+entity jpa --class ~.domain.Reservation --testAutomatically
+	field string reservationTag --notNull --sizeMin 1 --sizeMax 100
+	field reference --fieldName requester --type ~.domain.User
+	field string comments --sizeMax 2000
+	field reference --fieldName application --type ~.domain.Application
+	field reference --fieldName release --type ~.domain.Release
+	field reference --fieldName lifecyclePhase --type ~.domain.LifecyclePhase
+	field reference --fieldName server --type ~.domain.Server
+	field reference --fieldName service --type ~.domain.Service
+	field date startDatetime --type java.util.Date
+	field date endDatetime --type java.util.Date
 
 
 web mvc setup

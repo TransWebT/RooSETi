@@ -79,17 +79,16 @@ json all --deepSerialize
 web mvc json setup
 web mvc json all --package ~.web
 
-web mvc language --code de
-web mvc language --code es
-web mvc language --code fr
-
 web mvc setup
 web mvc all --package ~.web
+
+web mvc language --code de
+web mvc language --code es
 
 logging setup --level WARN --package WEB
 
 security setup
 
-finder list --class ~.domain.Service --depth 2 --filter reg,betw,IpEq
+// finder list --class ~.domain.Service --depth 2 --filter reg,betw,IpEq
 
 logging setup --level INFO

@@ -34,8 +34,8 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `rooseti`.`APPLICATION` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
-  `description` LONGTEXT NULL ,
-  `screenshot` BLOB NULL ,
+  `description` VARCHAR(2000) NULL ,
+  `screenshot` TINYBLOB NULL ,
   `owner_id` INT UNSIGNED NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
@@ -75,7 +75,7 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `rooseti`.`RELEASE` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
-  `description` LONGTEXT NULL ,
+  `description` VARCHAR(2000) NULL ,
   `display_order` INT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
@@ -92,7 +92,7 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `rooseti`.`SERVER_TYPE` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
-  `description` LONGTEXT NULL ,
+  `description` VARCHAR(2000) NULL ,
   `display_order` INT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
@@ -109,7 +109,7 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `rooseti`.`SERVICE_TYPE` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
-  `description` LONGTEXT NULL ,
+  `description` VARCHAR(2000) NULL ,
   `display_order` INT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
@@ -128,7 +128,7 @@ CREATE  TABLE IF NOT EXISTS `rooseti`.`SERVICE` (
   `instance_name` VARCHAR(255) NOT NULL ,
   `service_type_id` INT UNSIGNED NOT NULL ,
   `port` VARCHAR(50) NOT NULL ,
-  `notes` LONGTEXT NULL ,
+  `notes` VARCHAR(2000) NULL ,
   `display_order` INT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `id_idx` (`service_type_id` ASC) ,
@@ -152,7 +152,7 @@ CREATE  TABLE IF NOT EXISTS `rooseti`.`SERVER` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   `ip_address` VARCHAR(45) NOT NULL ,
-  `description` LONGTEXT NULL ,
+  `description` VARCHAR(2000) NULL ,
   `display_order` INT NULL ,
   `server_type` INT UNSIGNED NULL ,
   PRIMARY KEY (`id`) ,
@@ -177,7 +177,7 @@ CREATE  TABLE IF NOT EXISTS `rooseti`.`RESERVATION` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `reservation_tag` VARCHAR(100) NOT NULL ,
   `requester_id` INT UNSIGNED NULL ,
-  `comments` LONGTEXT NULL ,
+  `comments` VARCHAR(2000) NULL ,
   `application_id` INT UNSIGNED NOT NULL ,
   `release_id` INT UNSIGNED NOT NULL ,
   `lifecycle_phase_id` INT UNSIGNED NOT NULL ,

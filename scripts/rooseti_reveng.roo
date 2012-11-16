@@ -1,0 +1,9 @@
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-11-15 13:24:13
+// Note: "reveng" (Reverse Engineer) package name to avoid conflict with hand-written Roo script.
+// Also Note: you may need to add a "--password" parameter to the "persistence setup" command below. 
+project --topLevelPackage com.bt.reveng
+persistence setup --provider HIBERNATE --database MYSQL --databaseName rooseti --userName root
+database introspect  --schema rooseti  --file rooseti.xml
+database reverse engineer --schema rooseti --package ~.domain
+controller all --package  ~.web
+quit

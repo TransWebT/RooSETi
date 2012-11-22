@@ -1,0 +1,7 @@
+Steps to take after code is generated via rooseti.roo:
+
+Security:
+1. Edit RooSETi/src/main/resources/META-INF/spring/applicationContext-security.xml to security CRUD screens:
+   Add intercept-url tags for each CRUD url pattern.  i.e.:
+   <intercept-url pattern="/services/**" access="hasRole('ROLE_ADMIN')" />
+

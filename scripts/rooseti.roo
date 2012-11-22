@@ -1,6 +1,7 @@
 project --topLevelPackage com.bt.rooseti --projectName rooseti
 
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
+database properties set --key database.url --value jdbc:hsqldb:${user.home}/rooseti
 
 entity jpa --class ~.domain.Person --testAutomatically
 	field string firstName --notNull --sizeMin 1 --sizeMax 50
@@ -81,14 +82,24 @@ web mvc json all --package ~.web
 
 web mvc setup
 web mvc all --package ~.web
+web mvc controller ~.web.PublicReservationController --preferredMapping /public
+
+web mvc finder all
 
 web mvc language --code de
 web mvc language --code es
 
-logging setup --level WARN --package WEB
-
 security setup
 
-// finder list --class ~.domain.Service --depth 2 --filter reg,betw,IpEq
+selenium test --controller ~.web.PersonController
+selenium test --controller ~.web.ServerTypeController
+selenium test --controller ~.web.ServerController
+selenium test --controller ~.web.ServiceTypeController
+selenium test --controller ~.web.ServiceController
+selenium test --controller ~.web.LifecyclePhaseController
+selenium test --controller ~.web.ApplicationController
+selenium test --controller ~.web.ApplicationReleaseController
+selenium test --controller ~.web.ReservationController
 
 logging setup --level INFO
+
